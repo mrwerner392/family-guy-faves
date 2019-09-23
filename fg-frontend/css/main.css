@@ -1,0 +1,85 @@
+li {
+  /* list-style: inside; */
+  padding-left: none;
+  padding-top: 1%;
+}
+
+h2, h4 {
+  padding-left: 15px;
+}
+
+h2 {
+  background-color: #6198ff;
+  margin: 0;
+  padding-bottom: 2%;
+  padding-top: 2%;
+  border-bottom: 1px solid #000;
+  border-radius: 25px 25px 0px 0px;
+}
+
+form {
+  padding-left: 40px;
+}
+
+input[type="text"] {
+  width: 15vw;
+}
+
+input[type="text"]:hover {
+  border: 2px solid #6198ff;
+}
+
+input[type="submit"] {
+  border-radius: 5px
+}
+
+input[type="submit"]:hover {
+  cursor: pointer;
+  background-color: #6198ff;
+}
+
+button {
+  box-shadow: 0px 0px 2px #ccc;
+  border-radius: 5px;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: #ff6161;
+}
+
+.user {
+  display: grid;
+  grid-template-columns: 1;
+  grid-template-rows: 2;
+  margin-bottom: 5vh;
+  box-shadow: 3px 3px 5px 6px #ccc;
+  /* border: 1px solid #000; */
+  border-radius: 25px;
+}
+
+.favs-container {
+  display: grid;
+  grid-template-columns: 40% 60%;
+  grid-template-areas:
+  "fav-chars fav-quotes";
+  /* width: 95vw; */
+}
+
+.fav-chars {
+  grid-area: fav-chars;
+  padding-bottom: 2vh;
+  border-right: 1px solid #000;
+  border-radius: 0px 0px 0px 25px;
+}
+
+.fav-quotes {
+  grid-area: fav-quotes;
+  padding-bottom: 2vh;
+  border-radius: 0px 0px 25px 0px;
+}
+
+.fav-chars, .fav-quotes {
+  box-shadow: inset 0px 5px 5px rgba(0,0,0,0.6);
+  background-color: rgba(241, 255, 48, 0.3)
+}
