@@ -53,9 +53,14 @@ button:hover {
   grid-template-columns: 1;
   grid-template-rows: 2;
   margin-bottom: 5vh;
-  box-shadow: 3px 3px 5px 6px #ccc;
+  /* box-shadow: 3px 3px 5px 6px #ccc; */
   /* border: 1px solid #000; */
   border-radius: 25px;
+  /* padding: 5px; */
+  /* background-color: #a3a3a3; */
+  /* position: relative; */
+  /* z-index: 2; */
+  /* opacity: 1; */
 }
 
 .favs-container {
@@ -82,4 +87,10 @@ button:hover {
 .fav-chars, .fav-quotes {
   box-shadow: inset 0px 5px 5px rgba(0,0,0,0.6);
   background-color: rgba(241, 255, 48, 0.3)
+}
+
+.over {
+  /* box-shadow: 3px 3px 5px 6px #0f0; */
+  /* background-color: #0f0; */
+  /* transform: scale(1.1, 1.1); */
 }

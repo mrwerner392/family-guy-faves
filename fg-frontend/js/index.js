@@ -58,7 +58,7 @@ function makeUserDiv(user) {
   // Create a ul for favorite quotes
   let quotesList = document.createElement("ul");
   quotesList.classList.add("fav-quotes-list");
-  quotesList.dataset.userId = user.id
+  quotesList.dataset.id = user.id
 
   // Create li's for each quote and add them to the ul
   addToQuotesList(quotesList, user);
@@ -219,25 +219,38 @@ function dragStart(e) {
 };
 
 function dragEnter(e) {
-  e.target.classList.add("over");
-  // Add styling when something is being dragged
+  console.log(e.target)
+  // let draggedOnUserId = e.target.dataset.id;
+  // let draggedOn = document.querySelector(`div[data-user-id='${draggedOnUserId}']`)
+  // if (draggedOn.dataset.userId !== draggedEl.dataset.userId) {
+  //   setTimeout(() => draggedOn.classList.add("over"), 0);
+  // };
 };
 
 function dragOver(e) {
   e.preventDefault();
   e.dataTransfer.dropEffect = "move";
+  let draggedOnUserId = e.target.dataset.id;
+  let draggedOn = document.querySelector(`div[data-user-id='${draggedOnUserId}']`)
+  if (draggedOn.dataset.userId !== draggedEl.dataset.userId) {
+    setTimeout(() => draggedOn.classList.add("over"), 0);
+  };
 };
 
 function dragLeave(e) {
+  console.log(e.target);
   e.stopPropagation();
-  e.target.classList.remove("over");
+  // e.target.classList.remove("over");
+  // let draggedOffUserId = e.target.dataset.id;
+  // let draggedOff = document.querySelector(`div[data-user-id='${draggedOffUserId}']`)
+  // if (draggedOff.dataset.userId !== draggedEl.dataset.userId) {
+  //   draggedOff.classList.remove("over");
+  // };
 };
 
 function dragDrop(e) {
-  console.log("dragged", userDivs.indexOf(draggedEl))
   let droppedOnUserId = e.target.dataset.id;
   let droppedOn = document.querySelector(`div[data-user-id='${droppedOnUserId}']`)
-  console.log("dropped on", userDivs.indexOf(droppedOn))
 
   let currentDisplayIndexOfDragged = userDivs.indexOf(draggedEl);
   let currentDisplayIndexOfDroppedOn = userDivs.indexOf(droppedOn);
@@ -248,17 +261,8 @@ function dragDrop(e) {
     wrapper.innerHTML = "";
     userDivs.forEach(div => wrapper.append(div));
   };
+
   return false;
-  // let draggedUserId = draggedEl.dataset.userId;
-  // let droppedOnUserId = e.target.dataset.id;
-  // let droppedOn = document.querySelector(`div[data-user-id='${droppedOnUserId}']`)
-  // if (draggedEl != droppedOn) {
-  //   draggedEl.innerHTML = droppedOn.innerHTML;
-  //   droppedOn.innerHTML = e.dataTransfer.getData('text/html');
-  //   draggedEl.dataset.userId = droppedOnUserId;
-  //   droppedOn.dataset.userId = draggedUserId;
-  // };
-  // return false;
 };
 
 function dragEnd(e) {
@@ -268,5 +272,3 @@ function dragEnd(e) {
     draggable.style.opacity = 1;
   });
 };
-
-console.log(userDivs);
