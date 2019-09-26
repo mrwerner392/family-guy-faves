@@ -15,6 +15,7 @@ function makeUserDiv(user) {
   userDiv.dataset.userId = user.id;
   userDiv.draggable = true;
 
+  // Drag and drop things handled at bottom of code
   addDragAndDropEvents(userDiv);
 
   // Create and add a header to the user div
@@ -84,6 +85,8 @@ function makeUserDiv(user) {
 
 }
 
+// Make new header
+// Used for user's name as well as favorites lists
 function makeHeader(headerText, headerType, className) {
   let newHeader = document.createElement(headerType);
   newHeader.innerText = headerText;
@@ -91,12 +94,15 @@ function makeHeader(headerText, headerType, className) {
   return newHeader;
 }
 
+// Add new <li>s for each favorite character
 function addToCharsList(charsList, user) {
   user.characters.forEach(char => {
     let li = document.createElement("li")
     li.innerText = `${char.name} `;
     li.classList.add("character");
     li.dataset.id = user.id;
+
+    // Attach delete button and delete button event listener to each <li>
     let deleteButton = document.createElement("button");
     deleteButton.innerText = "x";
     deleteButton.dataset.id = user.id;
@@ -113,12 +119,15 @@ function addToCharsList(charsList, user) {
   })
 }
 
+// Add new <li>s for each favorite quote
 function addToQuotesList(quotesList, user) {
   user.quotes.forEach(quote => {
     let li = document.createElement("li")
     li.innerText = `${quote.content} `;
     li.classList.add("quote");
     li.dataset.id = user.id;
+
+    // Attach delete button and delete button event listener to each <li>
     let deleteButton = document.createElement("button");
     deleteButton.innerText = "x";
     deleteButton.dataset.id = user.id;
@@ -135,12 +144,19 @@ function addToQuotesList(quotesList, user) {
   })
 }
 
+// Make one new <li> if user adds a favorite character or quote
+// "liForThis" will either be the string "character" or "quote"
+// "obj" is the new quote or character object from the backend
 function makeSingleLi(obj, liForThis, user) {
   let li = document.createElement("li");
+
+  // If obj is a character then we want the content attribute
+  // If obj is a quote we want the name attribute
   obj.content ? li.innerText = `${obj.content} ` : li.innerText = `${obj.name} `;
   li.classList.add(liForThis);
   li.dataset.id = user.id;
 
+  // Attach delete button and delete button event listener to each <li>
   let deleteButton = document.createElement("button");
   deleteButton.innerText = "x";
   deleteButton.dataset.id = user.id;
@@ -157,6 +173,8 @@ function makeSingleLi(obj, liForThis, user) {
   return li;
 }
 
+// Create a form to add new favorite character or quote
+// "objectOfForm" will either be the string "character" or "quote"
 function newForm(objectOfForm, user, list) {
   let form = document.createElement("form");
   form.dataset.id = user.id;
@@ -202,6 +220,10 @@ function newForm(objectOfForm, user, list) {
   list.parentNode.append(form);
 }
 
+
+// Testing out drag and drop
+
+// Add all event listeners
 function addDragAndDropEvents(el) {
   el.addEventListener('dragstart', dragStart, false);
   el.addEventListener('dragenter', dragEnter, false);
@@ -211,6 +233,7 @@ function addDragAndDropEvents(el) {
   el.addEventListener('dragend', dragEnd, false);
 };
 
+// When something starts being dragged
 function dragStart(e) {
   draggedEl = e.target;
   draggedEl.style.opacity = '0.5';
@@ -218,8 +241,9 @@ function dragStart(e) {
   e.dataTransfer.setData("text/html", draggedEl.innerHTML);
 };
 
+// When something first drags over a valid drop area
 function dragEnter(e) {
-  console.log(e.target)
+  // console.log(e.target)
   // let draggedOnUserId = e.target.dataset.id;
   // let draggedOn = document.querySelector(`div[data-user-id='${draggedOnUserId}']`)
   // if (draggedOn.dataset.userId !== draggedEl.dataset.userId) {
@@ -227,6 +251,7 @@ function dragEnter(e) {
   // };
 };
 
+// While something is dragged over a valid drop area
 function dragOver(e) {
   e.preventDefault();
   e.dataTransfer.dropEffect = "move";
@@ -237,8 +262,9 @@ function dragOver(e) {
   };
 };
 
+// When something leaves a valid drop area
 function dragLeave(e) {
-  console.log(e.target);
+  // console.log(e.target);
   e.stopPropagation();
   // e.target.classList.remove("over");
   // let draggedOffUserId = e.target.dataset.id;
@@ -248,6 +274,7 @@ function dragLeave(e) {
   // };
 };
 
+// When a dragged object is dropped in a valid drop area
 function dragDrop(e) {
   let droppedOnUserId = e.target.dataset.id;
   let droppedOn = document.querySelector(`div[data-user-id='${droppedOnUserId}']`)
@@ -255,6 +282,8 @@ function dragDrop(e) {
   let currentDisplayIndexOfDragged = userDivs.indexOf(draggedEl);
   let currentDisplayIndexOfDroppedOn = userDivs.indexOf(droppedOn);
 
+  // If object is dropped in a valid drop area,
+  // have the two objects switch places on the screen
   if(currentDisplayIndexOfDragged !== currentDisplayIndexOfDroppedOn) {
     userDivs[currentDisplayIndexOfDragged] = droppedOn;
     userDivs[currentDisplayIndexOfDroppedOn] = draggedEl;
@@ -262,9 +291,10 @@ function dragDrop(e) {
     userDivs.forEach(div => wrapper.append(div));
   };
 
-  return false;
+  return false; // Necessary to return false here? What is the purpose?
 };
 
+// After drag/drop is over
 function dragEnd(e) {
   let draggables = document.querySelectorAll(".draggable");
   draggables.forEach(draggable => {
