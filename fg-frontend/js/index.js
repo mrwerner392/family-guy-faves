@@ -1,4 +1,5 @@
 const wrapper = document.querySelector(".wrapper");
+let userDivs = [];
 let draggedEl = {};
 
 fetch("http://localhost:3000/users")
@@ -78,6 +79,8 @@ function makeUserDiv(user) {
 
   // Add user div to wrapper
   wrapper.append(userDiv);
+
+  userDivs.push(userDiv);
 
 }
 
@@ -231,16 +234,31 @@ function dragLeave(e) {
 };
 
 function dragDrop(e) {
-  let draggedUserId = draggedEl.dataset.userId;
+  console.log("dragged", userDivs.indexOf(draggedEl))
   let droppedOnUserId = e.target.dataset.id;
   let droppedOn = document.querySelector(`div[data-user-id='${droppedOnUserId}']`)
-  if (draggedEl != droppedOn) {
-    draggedEl.innerHTML = droppedOn.innerHTML;
-    droppedOn.innerHTML = e.dataTransfer.getData('text/html');
-    draggedEl.dataset.userId = droppedOnUserId;
-    droppedOn.dataset.userId = draggedUserId;
+  console.log("dropped on", userDivs.indexOf(droppedOn))
+
+  let currentDisplayIndexOfDragged = userDivs.indexOf(draggedEl);
+  let currentDisplayIndexOfDroppedOn = userDivs.indexOf(droppedOn);
+
+  if(currentDisplayIndexOfDragged !== currentDisplayIndexOfDroppedOn) {
+    userDivs[currentDisplayIndexOfDragged] = droppedOn;
+    userDivs[currentDisplayIndexOfDroppedOn] = draggedEl;
+    wrapper.innerHTML = "";
+    userDivs.forEach(div => wrapper.append(div));
   };
   return false;
+  // let draggedUserId = draggedEl.dataset.userId;
+  // let droppedOnUserId = e.target.dataset.id;
+  // let droppedOn = document.querySelector(`div[data-user-id='${droppedOnUserId}']`)
+  // if (draggedEl != droppedOn) {
+  //   draggedEl.innerHTML = droppedOn.innerHTML;
+  //   droppedOn.innerHTML = e.dataTransfer.getData('text/html');
+  //   draggedEl.dataset.userId = droppedOnUserId;
+  //   droppedOn.dataset.userId = draggedUserId;
+  // };
+  // return false;
 };
 
 function dragEnd(e) {
@@ -250,3 +268,5 @@ function dragEnd(e) {
     draggable.style.opacity = 1;
   });
 };
+
+console.log(userDivs);
