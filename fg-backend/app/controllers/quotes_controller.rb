@@ -5,7 +5,7 @@ class QuotesController < ApplicationController
     if quote.save
       render json: quote, only: [:id, :content]
     else
-      errors = qoute.errors.full_messages
+      errors = quote.errors.full_messages
       render json: {error: errors}
     end
   end
